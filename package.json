@@ -4,6 +4,7 @@
   "description": "RSS agregator",
   "main": "./src/js/index.js",
   "scripts": {
+    "install": "npm ci",
     "develop": "npx webpack serve",
     "build": "NODE_ENV=production npx webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,7 +38,6 @@
     "@babel/preset-env": "^7.19.0",
     "@popperjs/core": "^2.11.6",
     "autoprefixer": "^10.4.8",
-    "babel-cli": "^6.26.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
