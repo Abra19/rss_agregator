@@ -19,4 +19,3 @@ https://frontend-project-11-6ix1bmx6a-abra19.vercel.app/
 1. Clone git repo: `git clone https://github.com/Abra19/frontend-project-11.git`
 2. Install package: `make install`
 3. Build: `make build`
-4. Application is located in: `./dist/index.html`
