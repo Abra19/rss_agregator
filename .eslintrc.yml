@@ -1,10 +1,16 @@
+---
 root: true
+
+plugins:
+  - eslint-plugin-babel
 
 env:
   node: true
   browser: true
 
-extends: 
+parser: "@babel/eslint-parser"
+
+extends:
   - "airbnb-base"
 
 rules:

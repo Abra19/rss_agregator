@@ -1,5 +1,5 @@
 # Name of workflow
-name: Build, lint and test
+name: Nodejs CI
 
 # Trigger the workflow on push or pull request
 on:
@@ -42,7 +42,3 @@ jobs:
       - name: Run linter
         run: | 
           make lint
-
-      - name: Run test
-        run: |
-          make test
