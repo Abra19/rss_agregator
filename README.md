@@ -13,7 +13,7 @@ RSS is a specialized format designed to describe news feeds, article announcemen
 3. AJAX requests with axios
 
 ### Try the application:
-https://frontend-project-11-6ix1bmx6a-abra19.vercel.app/
+https://frontend-project-11-abra19.vercel.app/
 ### To get started
 
 1. Clone git repo: `git clone https://github.com/Abra19/frontend-project-11.git`
