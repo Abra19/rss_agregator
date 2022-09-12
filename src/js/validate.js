@@ -1,11 +1,18 @@
 import * as yup from 'yup';
 
-export default (fields, state, i18n) => {
+export default (fields, state, i18next) => {
+  yup.setLocale({
+    mixed: {
+      notOneOf: i18next.t('errors.existingUrl'),
+    },
+    string: {
+      url: i18next.t('errors.invalidUrl'),
+    },
+  });
   const schema = yup.object().shape({
     url: yup.string()
-      .url(i18n.t('errors.invalidUrl'))
-      .required(i18n.t('errors.emptyField'))
-      .notOneOf(state.form.urlsAdded, i18n.t('errors.existingUrl')),
+      .url()
+      .notOneOf(state.form.urlsAdded),
   });
   schema.validate(fields)
     .then((data) => {
@@ -14,6 +21,7 @@ export default (fields, state, i18n) => {
       state.form.urlsAdded = [...state.form.urlsAdded, data.url];
     }).catch((err) => {
       state.form.urlIsValid = false;
+      console.log(err.message);
       state.form.validationError = err.message;
     });
 };
