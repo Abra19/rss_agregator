@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 
-export default (fields, state) => {
+export default (fields, state, i18n) => {
   const schema = yup.object().shape({
     url: yup.string()
-      .url('Ссылка должна быть валидным url!')
-      .required('Заполните это поле')
-      .notOneOf(state.form.urlsAdded, 'RSS уже существует'),
+      .url(i18n.t('errors.invalidUrl'))
+      .required(i18n.t('errors.emptyField'))
+      .notOneOf(state.form.urlsAdded, i18n.t('errors.existingUrl')),
   });
   schema.validate(fields)
     .then((data) => {

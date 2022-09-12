@@ -1,11 +1,10 @@
 import onChange from 'on-change';
 
-export default (state, elements) => onChange(state, (path, value) => {
+export default (state, elements, i18n) => onChange(state, (path, value) => {
   if (path === 'form.currentUrl') {
     elements.feedback.classList.remove('text-danger');
     elements.feedback.classList.add('text-success');
-    elements.feedback.textContent = 'RSS успешно загружен';
-
+    elements.feedback.textContent = i18n.t('rssSuccessLoad');
     elements.input.classList.remove('border-danger', 'is-invalid');
     elements.form.reset();
     elements.input.focus();
