@@ -30,12 +30,12 @@ export default () => {
     debug: true,
     resources,
   }).then(() => {
-      elements.form.addEventListener('submit', (e) => {
+    elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const url = formData.get('url');
       validate({ url }, watchedState, i18nInstance);
-  
+
       /*
       if (watchedState.form.urlIsValid) {
         watchedState.currentUrl = '';
@@ -47,6 +47,4 @@ export default () => {
       */
     });
   }).catch((e) => console.log(e));
-
-  
 };

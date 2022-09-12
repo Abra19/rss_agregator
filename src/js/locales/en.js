@@ -6,6 +6,5 @@ export default {
       existingUrl: 'RSS already exists',
     },
     rssSuccessLoad: 'RSS uploaded successfully',
-   
   },
 };

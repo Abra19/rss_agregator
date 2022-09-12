@@ -6,6 +6,5 @@ export default {
       existingUrl: 'RSS уже существует',
     },
     rssSuccessLoad: 'RSS успешно загружен',
-   
   },
 };
