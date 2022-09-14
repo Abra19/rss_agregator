@@ -7,10 +7,14 @@
 In this project we create RSS aggregator.
 RSS is a specialized format designed to describe news feeds, article announcements and other materials. This is the easiest way for websites (usually blogs) to allow users to subscribe to changes. For this, special services called RSS aggregators are used. These services are able to poll the RSS feeds of sites for new posts and display them in a convenient way, marking what they have read and so on.
 
-### Frontend project using Technology stack:
-1. Webpack 5
-2. Bootstrap 5
-3. AJAX requests with axios
+### Project used:
+* bootstrap
+* webpack
+* axios
+* i18next
+* on-change
+* yup
+* lodash
 
 ### Try the application:
 https://frontend-project-11-abra19.vercel.app/
