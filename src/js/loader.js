@@ -32,7 +32,7 @@ const getPosts = (content) => {
   return posts;
 };
 
-const loadPosts = (proxyUrl, state, feedId) => {
+const loadPosts = (proxyUrl, state, feedId, i18next) => {
   state.processState = 'initial';
   axios.get(proxyUrl)
     .then((response) => {
@@ -44,7 +44,11 @@ const loadPosts = (proxyUrl, state, feedId) => {
       });
       state.posts = [...state.posts, ...newPosts];
       state.processState = 'upgradePosts';
-      setTimeout(() => loadPosts(proxyUrl, state, feedId), 5000);
+      setTimeout(() => loadPosts(proxyUrl, state, feedId, i18next), 5000);
+    }).catch(() => {
+      state.error = i18next.t('errors.unknownError');
+      state.form.urlsAdded.splice(state.form.currentUrl.indexOf(), 1);
+      state.processState = 'networkOrParsingError';
     });
 };
 
