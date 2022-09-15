@@ -32,18 +32,36 @@ const getPosts = (content) => {
   return posts;
 };
 
-export default (state, i18next) => {
+const loadPosts = (proxyUrl, state, feedId) => {
+  state.processState = 'initial';
+  axios.get(proxyUrl)
+    .then((response) => {
+      const content = parser(response.data.contents);
+      const posts = getPosts(content);
+      const newPosts = posts.filter((post) => !state.posts.find((item) => item.link === post.link));
+      newPosts.forEach((post) => {
+        post.feedId = feedId;
+      });
+      state.posts = [...state.posts, ...newPosts];
+      state.processState = 'upgradePosts';
+      setTimeout(() => loadPosts(proxyUrl, state, feedId), 5000);
+    });
+};
+
+const loader = (state, i18next) => {
   const proxyUrl = getProxyUrl(state.form.currentUrl);
   axios.get(proxyUrl)
     .then((response) => {
-      const content = parser(response.data.contents, i18next, state);
+      const content = parser(response.data.contents);
       const newFeed = getFeed(content);
       state.feeds = [...state.feeds, newFeed];
-      state.posts = [...state.posts, ...getPosts(content)];
-      state.posts.forEach((post) => {
+      const newPosts = getPosts(content);
+      newPosts.forEach((post) => {
         post.feedId = newFeed.id;
       });
+      state.posts = [...state.posts, ...newPosts];
       state.processState = 'load';
+      setTimeout(() => loadPosts(proxyUrl, state, newFeed.id), 5000);
     }).catch((err) => {
       state.error = err.message === 'parseError'
         ? i18next.t('errors.parseError') : i18next.t('errors.networkError');
@@ -51,3 +69,5 @@ export default (state, i18next) => {
       state.form.urlsAdded.splice(state.form.currentUrl.indexOf(), 1);
     });
 };
+
+export default loader;

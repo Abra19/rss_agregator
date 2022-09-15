@@ -82,6 +82,9 @@ export default (state, elements, i18next) => onChange(state, (path, value) => {
         renderFeeds(feeds, state, i18next);
         renderPosts(posts, state, i18next);
         break;
+      case 'upgradePosts':
+        renderPosts(posts, state, i18next);
+        break;
       case 'validationError':
         input.classList.add('border-danger', 'is-invalid');
         feedback.textContent = state.form.validationError;

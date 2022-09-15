@@ -13,7 +13,7 @@ export default () => {
     },
     feeds: [],
     posts: [],
-    processState: 'initial', // loading, load, validationError, networkOrParsingError
+    processState: 'initial', // loading, load, upgradePosts, validationError, networkOrParsingError
     error: '', // network or parsing errors
   };
 
