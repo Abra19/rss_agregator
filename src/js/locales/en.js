@@ -11,5 +11,6 @@ export default {
     rssSuccessLoad: 'RSS uploaded successfully',
     feeds: 'Feeds',
     posts: 'Posts',
+    button: 'View',
   },
 };

@@ -4,6 +4,7 @@
 // https://www.vedomosti.ru/rss/news
 
 import '../scss/style.scss';
+import 'bootstrap';
 import app from './app.js';
 
 app();

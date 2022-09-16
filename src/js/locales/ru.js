@@ -11,5 +11,6 @@ export default {
     rssSuccessLoad: 'RSS успешно загружен',
     feeds: 'Фиды',
     posts: 'Посты',
+    button: 'Просмотр',
   },
 };

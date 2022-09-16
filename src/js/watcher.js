@@ -54,14 +54,50 @@ const renderPosts = (posts, state, i18next) => {
     ul.classList.add('list-group');
     container.prepend(ul);
     const li = document.createElement('li');
-    li.classList.add('list-group-item', 'border-0', 'rounded-0', 'mb-2');
+    li.classList.add(
+      'list-group-item',
+      'border-0',
+      'rounded-0',
+      'mb-2',
+      'd-flex',
+      'justify-content-between',
+      'align-items-start',
+    );
     const link = document.createElement('a');
     link.classList.add('fw-bold');
     link.textContent = post.title;
     link.setAttribute('href', post.link);
+    link.setAttribute('target', '_blank');
     li.append(link);
+    const btn = document.createElement('button');
+    btn.textContent = i18next.t('button');
+    btn.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('data-bs-toggle', 'modal');
+    btn.setAttribute('data-bs-target', '#modal');
+    btn.setAttribute('data-bs-id', post.id);
+    li.append(btn);
     ul.append(li);
   });
+};
+
+const renderActiveLink = (state, posts) => {
+  state.posts.forEach((post) => {
+    if (post.visited === true) {
+      const activeElement = posts.querySelector(`a[href="${post.link}"]`);
+      activeElement.classList.remove('fw-bold');
+      activeElement.classList.add('fw-normal', 'text-secondary');
+    }
+  });
+};
+
+const renderModal = (state, elements) => {
+  const activePost = state.posts.find((post) => post.modal);
+  if (activePost) {
+    elements.modalTitle.textContent = activePost.title;
+    elements.modalBody.textContent = activePost.description;
+    elements.modalLink.setAttribute('href', activePost.link);
+  }
 };
 
 export default (state, elements, i18next) => onChange(state, (path, value) => {
@@ -84,6 +120,8 @@ export default (state, elements, i18next) => onChange(state, (path, value) => {
         break;
       case 'upgradePosts':
         renderPosts(posts, state, i18next);
+        renderActiveLink(state, posts);
+        renderModal(state, elements);
         break;
       case 'validationError':
         input.classList.add('border-danger', 'is-invalid');
