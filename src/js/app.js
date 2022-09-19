@@ -3,6 +3,7 @@ import i18next from 'i18next';
 import resources from './locales/index.js';
 import watcher from './watcher.js';
 import validate from './validate.js';
+import updatePosts from './update.js';
 
 export default () => {
   const state = {
@@ -72,5 +73,7 @@ export default () => {
         activePost.modal = false;
       });
     });
+    const delay = 5000;
+    setTimeout(() => updatePosts(watchedState, i18next, delay), delay);
   });
 };

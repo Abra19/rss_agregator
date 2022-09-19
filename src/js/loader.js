@@ -2,36 +2,9 @@ import axios from 'axios';
 import { uniqueId } from 'lodash';
 
 import parser from './parser.js';
+import getProxyUrl from './proxyGetter.js';
 
-const getProxyUrl = (stateUrl) => {
-  const proxyUrl = new URL('https://allorigins.hexlet.app');
-  proxyUrl.pathname = '/get';
-  proxyUrl.searchParams.set('disableCache', true);
-  proxyUrl.searchParams.set('url', stateUrl);
-  return proxyUrl.toString();
-};
-
-const loadPosts = (proxyUrl, state, feedId, i18next) => {
-  state.processState = 'initial';
-  axios.get(proxyUrl)
-    .then((response) => {
-      const content = parser(response.data.contents);
-      const { posts } = content;
-      const newPosts = posts.filter((post) => !state.posts.find((item) => item.link === post.link));
-      newPosts.forEach((post) => {
-        post.feedId = feedId;
-      });
-      state.posts = [...state.posts, ...newPosts];
-      state.processState = 'upgradePosts';
-      setTimeout(() => loadPosts(proxyUrl, state, feedId, i18next), 5000);
-    }).catch(() => {
-      state.error = i18next.t('errors.unknownError');
-      state.form.urlsAdded.splice(state.form.currentUrl.indexOf(), 1);
-      state.processState = 'networkOrParsingError';
-    });
-};
-
-const loader = (state, i18next) => {
+export default (state, i18next) => {
   const proxyUrl = getProxyUrl(state.form.currentUrl);
   axios.get(proxyUrl)
     .then((response) => {
@@ -46,7 +19,6 @@ const loader = (state, i18next) => {
       });
       state.posts = [...state.posts, ...newPosts];
       state.processState = 'load';
-      setTimeout(() => loadPosts(proxyUrl, state, newFeed.id), 5000);
     }).catch((err) => {
       state.error = err.message === 'parseError'
         ? i18next.t('errors.parseError') : i18next.t('errors.networkError');
@@ -54,5 +26,3 @@ const loader = (state, i18next) => {
       state.form.urlsAdded.splice(state.form.currentUrl.indexOf(), 1);
     });
 };
-
-export default loader;
