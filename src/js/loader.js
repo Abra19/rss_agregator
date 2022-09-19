@@ -36,7 +36,7 @@ const loader = (state, i18next) => {
   axios.get(proxyUrl)
     .then((response) => {
       const content = parser(response.data.contents);
-      const newFeed = { content };
+      const newFeed = content.feed;
       newFeed.id = uniqueId();
       state.feeds = [...state.feeds, newFeed];
       const newPosts = content.posts;
