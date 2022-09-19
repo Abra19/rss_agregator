@@ -11,8 +11,6 @@ const getProxyUrl = (stateUrl) => {
   return proxyUrl.toString();
 };
 
-
-
 const loadPosts = (proxyUrl, state, feedId, i18next) => {
   state.processState = 'initial';
   axios.get(proxyUrl)
