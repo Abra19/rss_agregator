@@ -11,33 +11,14 @@ const getProxyUrl = (stateUrl) => {
   return proxyUrl.toString();
 };
 
-const getFeed = (content) => {
-  const feed = {};
-  feed.id = uniqueId();
-  feed.title = content.querySelector('channel > title').textContent;
-  feed.description = content.querySelector('channel > description').textContent;
-  return feed;
-};
 
-const getPosts = (content) => {
-  const items = content.querySelectorAll('item');
-  const posts = Array.from(items).map((item) => {
-    const result = {};
-    result.id = uniqueId();
-    result.title = item.querySelector('title').textContent;
-    result.link = item.querySelector('link').textContent;
-    result.description = item.querySelector('description').textContent;
-    return result;
-  });
-  return posts;
-};
 
 const loadPosts = (proxyUrl, state, feedId, i18next) => {
   state.processState = 'initial';
   axios.get(proxyUrl)
     .then((response) => {
       const content = parser(response.data.contents);
-      const posts = getPosts(content);
+      const { posts } = content;
       const newPosts = posts.filter((post) => !state.posts.find((item) => item.link === post.link));
       newPosts.forEach((post) => {
         post.feedId = feedId;
@@ -57,10 +38,12 @@ const loader = (state, i18next) => {
   axios.get(proxyUrl)
     .then((response) => {
       const content = parser(response.data.contents);
-      const newFeed = getFeed(content);
+      const newFeed = { content };
+      newFeed.id = uniqueId();
       state.feeds = [...state.feeds, newFeed];
-      const newPosts = getPosts(content);
+      const newPosts = content.posts;
       newPosts.forEach((post) => {
+        post.id = uniqueId();
         post.feedId = newFeed.id;
       });
       state.posts = [...state.posts, ...newPosts];
