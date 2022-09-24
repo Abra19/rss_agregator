@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { differenceBy } from 'lodash';
 
 import parser from './parser.js';
 import getProxyUrl from './proxyGetter.js';
@@ -10,8 +11,9 @@ const updatePosts = (state, i18next, delay) => {
       const content = parser(response.data.contents);
       const { feed, posts } = content;
       const feedId = state.feeds.find((item) => feed.title === item.title);
-      const newPosts = posts
-        .filter((post) => !state.posts.find((item) => item.link === post.link));
+      const newPosts = differenceBy(posts, state.posts, 'link');
+      /* const newPosts = posts
+        .filter((post) => !state.posts.find((item) => item.link === post.link)); */
       newPosts.forEach((post) => {
         post.feedId = feedId;
       });
