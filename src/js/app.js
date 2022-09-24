@@ -1,14 +1,15 @@
 import i18next from 'i18next';
+import { setLocale } from 'yup';
 
 import resources from './locales/index.js';
 import watcher from './watcher.js';
-import validate from './validate.js';
+
+import submitHandler from './submitHandler.js';
 import updatePosts from './update.js';
 
 export default () => {
   const state = {
     form: {
-      currentUrl: '',
       urlsAdded: [],
       validationError: '',
     },
@@ -34,21 +35,25 @@ export default () => {
   };
 
   const defaultLanguage = 'ru';
-  const i18nInstance = i18next.createInstance();
 
+  const i18nInstance = i18next.createInstance();
   i18nInstance.init({
     lng: defaultLanguage,
     debug: true,
     resources,
   }).then(() => {
     const watchedState = watcher(state, elements, i18nInstance);
-    elements.form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      watchedState.processState = 'initial';
-      const formData = new FormData(e.target);
-      const url = formData.get('url');
-      validate({ url }, watchedState, i18nInstance);
+    setLocale({
+      mixed: {
+        required: i18nInstance.t('errors.emptyField'),
+        notOneOf: i18nInstance.t('errors.existingUrl'),
+      },
+      string: {
+        url: i18nInstance.t('errors.invalidUrl'),
+      },
     });
+    elements.form.addEventListener('submit', (e) => submitHandler(e, watchedState, i18nInstance));
+
     elements.posts.addEventListener('click', (e) => {
       watchedState.processState = 'initial';
       const activeLink = e.target.href;

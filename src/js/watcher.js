@@ -129,7 +129,6 @@ export default (state, elements, i18next) => onChange(state, (path, value) => {
         renderError(input, button, feedback);
         break;
       case 'networkOrParsingError':
-        input.value = state.form.currentUrl;
         feedback.textContent = state.error;
         renderError(input, button, feedback);
         break;

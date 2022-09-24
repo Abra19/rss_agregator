@@ -4,11 +4,12 @@ import { uniqueId } from 'lodash';
 import parser from './parser.js';
 import getProxyUrl from './proxyGetter.js';
 
-export default (state, i18next) => {
-  const proxyUrl = getProxyUrl(state.form.currentUrl);
-  axios.get(proxyUrl)
+export default (url, state) => {
+  const proxyUrl = getProxyUrl(url);
+  const promise = axios.get(proxyUrl)
     .then((response) => {
       const content = parser(response.data.contents);
+      state.form.urlsAdded = [...state.form.urlsAdded, url];
       const newFeed = content.feed;
       newFeed.id = uniqueId();
       state.feeds = [...state.feeds, newFeed];
@@ -19,10 +20,6 @@ export default (state, i18next) => {
       });
       state.posts = [...state.posts, ...newPosts];
       state.processState = 'load';
-    }).catch((err) => {
-      state.error = err.message === 'parseError'
-        ? i18next.t('errors.parseError') : i18next.t('errors.networkError');
-      state.processState = 'networkOrParsingError';
-      state.form.urlsAdded.splice(state.form.currentUrl.indexOf(), 1);
     });
+  return promise;
 };
