@@ -129,7 +129,7 @@ export default (state, elements, i18next) => onChange(state, (path, value) => {
         renderError(input, button, feedback);
         break;
       case 'networkOrParsingError':
-        feedback.textContent = state.error;
+        feedback.textContent = i18next.t(state.error);
         renderError(input, button, feedback);
         break;
       default:

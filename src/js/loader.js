@@ -5,6 +5,7 @@ import parser from './parser.js';
 import getProxyUrl from './proxyGetter.js';
 
 export default (url, state) => {
+  state.processState = 'loading';
   const proxyUrl = getProxyUrl(url);
   const promise = axios.get(proxyUrl)
     .then((response) => {

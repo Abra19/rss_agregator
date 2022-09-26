@@ -16,7 +16,7 @@ export default (e, state, i18next) => {
         state.processState = 'validationError';
       } else {
         state.error = err.message === 'parseError'
-          ? i18next.t('errors.parseError') : i18next.t('errors.networkError');
+          ? 'errors.parseError' : 'errors.networkError';
         state.processState = 'networkOrParsingError';
       }
     });
