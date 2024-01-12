@@ -19,6 +19,6 @@ RSS is a specialized format designed to describe news feeds, article announcemen
 ### [Try the application](https://frontend-project-11-abra19.vercel.app/)
 ### To get started
 
-1. Clone git repo: `git clone https://github.com/Abra19/frontend-project-11.git`
+1. Clone git repo: `git clone git@github.com:Abra19/rss_agregator.git`
 2. Install package: `make install`
 3. Build: `make build`
